@@ -1,5 +1,5 @@
 from flask import Flask, render_template, Response, request, send_file
-import cv2
+# import cv2
 # from imutils.video import VideoStream
 import os 
 from datetime import datetime
@@ -24,24 +24,26 @@ def test():
 
 @app.route('/show/')
 def show():
-    fileList = glob.glob('static/temp2023*', recursive=True)
-    for filePath in fileList:
-        try:
-            os.remove(filePath)
-        except OSError:
-            print("Error while deleting file")
+    # fileList = glob.glob('static/temp2023*', recursive=True)
+    # for filePath in fileList:
+    #     try:
+    #         os.remove(filePath)
+    #     except OSError:
+    #         print("Error while deleting file")
     
-    name = 'temp{}.jpg'.format(datetime.today().strftime('%Y_%m_%d_%H:%M:%S'))
-    shutil.copyfile('static/temp.jpg', 'static/'+name)
+    # name = 'temp{}.jpg'.format(datetime.today().strftime('%Y_%m_%d_%H:%M:%S'))
+    # shutil.copyfile('static/temp.jpg', 'static/'+name)
+    name = 'temp.jpg'
     return render_template('show.html',  user_image=name)
+    # return render_template('show.html')
 
 # @app.route('/stream/')
 # def stream():
 #     return Response(gather_img(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/plot/')
-def plot():
-    return Response(gather_plot(), mimetype='multipart/x-mixed-replace; boundary=frame')
+# @app.route('/plot/')
+# def plot():
+#     return Response(gather_plot(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # def gather_img():
 #     cap = VideoStream('http://icai:icai@169.254.179.163/mjpg/video.mjpg').start()
@@ -51,13 +53,13 @@ def plot():
 #         yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + frame.tobytes() + b'\r\n')
 #         time.sleep(0.2)
 
-def gather_plot():
+# def gather_plot():
 
-    img = cv2.imread('flask/static/temp.jpg')
-    cv2.imwrite('flask/static/test.jpg', img)
-    encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 100]
-    _, frame = cv2.imencode('.jpg', img, encode_param)
-    yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + frame.tobytes() + b'\r\n')
+#     img = cv2.imread('flask/static/temp.jpg')
+#     cv2.imwrite('flask/static/test.jpg', img)
+#     encode_param = [int(cv2.IMWRITE_JPEG_QUALITY), 100]
+#     _, frame = cv2.imencode('.jpg', img, encode_param)
+#     yield (b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + frame.tobytes() + b'\r\n')
 
 if __name__ == '__main__':
 
