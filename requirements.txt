@@ -1,2 +1,6 @@
-Flask==2.0.2
 numpy
+pandas
+flask
+opencv-python
+azure-identity
+azure-storage-blob
