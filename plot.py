@@ -8,6 +8,8 @@ def plot():
     measurement_names = ['TIMESTAMP', 'RECORD', 'BattV_Avg', 'PTemp_C_Avg', 'VWC_5cm_Avg', 'Ka_5cm_Avg', 'T_5cm_Avg', 'BulkEC_5cm_Avg', 'VWC_10cm_Avg', 'Ka_10cm_Avg', 'T_10cm_Avg', 'BulkEC_10cm_Avg', 'VWC_20cm_Avg', 'Ka_20cm_Avg', 'T_20cm_Avg', 'BulkEC_20cm_Avg', 'VWC_30cm_Avg', 'Ka_30cm_Avg', 'T_30cm_Avg', 'BulkEC_30cm_Avg', 'VWC_40cm_Avg', 'Ka_40cm_Avg', 'T_40cm_Avg', 'BulkEC_40cm_Avg', 'VWC_50cm_Avg', 'Ka_50cm_Avg', 'T_50cm_Avg', 'BulkEC_50cm_Avg', 'Temp_C_Avg', 'SlrFD_W_Avg', 'Rain_mm_Tot', 'Strikes_Tot', 'Dist_km_Avg', 'WS_ms_S_WVT', 'WindDir_D1_WVT', 'WindDir_SD1_WVT', 'MaxWS_ms_Avg', 'AirT_C_Avg', 'VP_mbar_Avg', 'BP_mbar_Avg', 'RH', 'RHT_C']
 
     filenames = sorted(glob.glob("/data/data/*.csv"))
+    # filenames = sorted(glob.glob("../../data/*.csv"))
+
     dfs = []
     for f in filenames:
         dfs.append(pd.read_csv(f))
