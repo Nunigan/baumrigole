@@ -1,5 +1,5 @@
 import os
-import cv2
+import numpy
 
 from flask import (Flask, redirect, render_template, request,
                    send_from_directory, url_for)
