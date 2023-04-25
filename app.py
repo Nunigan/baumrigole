@@ -1,13 +1,11 @@
 from flask import Flask, render_template, Response, request, send_file
 # import cv2
 # from imutils.video import VideoStream
-import os 
-from datetime import datetime
-import shutil
 import glob
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
-import time 
+import plot
+
 # def dowload_cloud():
 #     t = time.time()
 #     print('Download from cloud')

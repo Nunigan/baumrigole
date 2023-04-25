@@ -18,7 +18,6 @@ def plot():
     df = df.drop_duplicates(keep='first')
     df.sort_values(by='TIMESTAMP', inplace = True)
 
-
     plt.rcParams.update({'font.size': 20})
     fig, ax = plt.subplots(1, 1, sharex=True, figsize=(16,9))
     ax.plot(df['TIMESTAMP'], df['Temp_C_Avg'])
@@ -29,5 +28,5 @@ def plot():
     ax.tick_params(axis='x', rotation=20)
     ax.xaxis.set_major_locator(mdates.HourLocator(range(0,24,2)))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%m-%d %H:%M'))
-    plt.savefig('static/temp.pdf', dpi=300)
+    plt.savefig('static/temp.jpg', dpi=300)
     plt.close()
