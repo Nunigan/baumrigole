@@ -8,7 +8,6 @@ import glob
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 import time 
-
 # def dowload_cloud():
 #     t = time.time()
 #     print('Download from cloud')
@@ -31,12 +30,14 @@ import time
 #                 download_file.write(container_client.download_blob(blob.name).readall())
 #     print(time.time() - t)
 
+
+
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # dowload_cloud()
+    plot()
     filenames = glob.glob("/data/data/*.csv")
     for i, files in enumerate(filenames):
         filenames[i] = files[5:]
