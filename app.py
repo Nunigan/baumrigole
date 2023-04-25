@@ -47,7 +47,7 @@ def index():
 @app.route("/test" , methods=['GET', 'POST'])
 def test():
     select = request.form.get('file_select')
-    return send_file("{}".format(select), as_attachment=True)
+    return send_file("{}data/".format(select), as_attachment=True)
 
 @app.route('/show/')
 def show():
