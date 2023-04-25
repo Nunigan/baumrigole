@@ -5,7 +5,7 @@ import glob
 from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 from plot import plot
-
+import time
 # def dowload_cloud():
 #     t = time.time()
 #     print('Download from cloud')
@@ -35,7 +35,10 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    t = time.time()
     plot()
+    print(time.time() - t)
+    filenames = sorted(glob.glob("/data/data/*.csv"))
     filenames = glob.glob("/data/data/*.csv")
     for i, files in enumerate(filenames):
         filenames[i] = files[5:]
