@@ -5,4 +5,4 @@ azure-identity
 azure-storage-blob
 glob
 matplotlib
-pandas
+pandas2
