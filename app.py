@@ -5,15 +5,42 @@ import os
 from datetime import datetime
 import shutil
 import glob
+from azure.identity import DefaultAzureCredential
+from azure.storage.blob import BlobServiceClient
+import time 
+
+def dowload_cloud():
+    t = time.time()
+    print('Download from cloud')
+    account_url = "https://baumrigole.blob.core.windows.net"
+    default_credential = DefaultAzureCredential()
+    blob_service_client = BlobServiceClient(account_url, credential=default_credential)
+    container_name = 'baumrigoledata'
+    container_client = blob_service_client.get_container_client(container=container_name)
+
+    filenames_local = sorted(glob.glob("data/*.csv"))
+
+    blob_list = container_client.list_blobs()
+    for blob in blob_list:
+        if 'data' in blob.name:
+            if blob.name in filenames_local:
+                if os.stat(blob.name).st_size == blob.size:
+                    continue
+            name = blob.name
+            with open(file=name, mode="wb") as download_file:
+                download_file.write(container_client.download_blob(blob.name).readall())
+    print(time.time() - t)
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    dowload_cloud()
     filenames = glob.glob("data/*.csv")
     for i, files in enumerate(filenames):
         filenames[i] = files[5:]
+
 
     return render_template('index.html',data=filenames)
 
@@ -64,3 +91,4 @@ def show():
 if __name__ == '__main__':
 
     app.run()
+    # dowload_cloud()
