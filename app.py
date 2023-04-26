@@ -62,7 +62,7 @@ def show():
     
     # name = 'temp{}.jpg'.format(datetime.today().strftime('%Y_%m_%d_%H:%M:%S'))
     # shutil.copyfile('static/temp.jpg', 'static/'+name)
-    name = 'temp.jpg'
+    name = '/data/data/temp.jpg'
     return render_template('show.html',  user_image=name)
     # return render_template('show.html')
 
