@@ -6,6 +6,8 @@ from azure.identity import DefaultAzureCredential
 from azure.storage.blob import BlobServiceClient
 # from plot import plot
 import time
+import shutil
+
 # def dowload_cloud():
 #     t = time.time()
 #     print('Download from cloud')
@@ -62,7 +64,8 @@ def show():
     
     # name = 'temp{}.jpg'.format(datetime.today().strftime('%Y_%m_%d_%H:%M:%S'))
     # shutil.copyfile('static/temp.jpg', 'static/'+name)
-    name = '/data/data/temp.jpg'
+    shutil.copyfile('/data/data/temp.jpg', 'static/temp.jpg')
+    name = 'temp.jpg'
     return render_template('show.html',  user_image=name)
     # return render_template('show.html')
 
