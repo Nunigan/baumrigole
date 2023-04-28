@@ -41,6 +41,11 @@ body {
   float: right;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 @media screen and (max-width: 500px) {
   .header a {
     float: none;

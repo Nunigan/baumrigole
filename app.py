@@ -63,7 +63,6 @@ def show():
     #         print("Error while deleting file")
     
     # name = 'temp{}.jpg'.format(datetime.today().strftime('%Y_%m_%d_%H:%M:%S'))
-    # shutil.copyfile('static/temp.jpg', 'static/'+name)
     shutil.copyfile('/data/data/temp.jpg', 'static/temp.jpg')
     shutil.copyfile('/data/data/cam.jpg', 'static/cam.jpg')
     shutil.copyfile('/data/data/climavue.jpg', 'static/climavue.jpg')
@@ -71,6 +70,8 @@ def show():
 
     # shutil.copyfile('../../data/temp.jpg', 'static/temp.jpg')
     # shutil.copyfile('../../data/cam.jpg', 'static/cam.jpg')
+    # shutil.copyfile('../../data/climavue.jpg', 'static/climavue.jpg')
+    # shutil.copyfile('../../data/soilvue.jpg', 'static/soilvue.jpg')
 
     temp = 'temp.jpg'
     cam = 'cam.jpg'
