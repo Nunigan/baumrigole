@@ -64,9 +64,14 @@ def show():
     
     # name = 'temp{}.jpg'.format(datetime.today().strftime('%Y_%m_%d_%H:%M:%S'))
     # shutil.copyfile('static/temp.jpg', 'static/'+name)
-    shutil.copyfile('/data/data/temp.jpg', 'static/temp.jpg')
-    name = 'temp.jpg'
-    return render_template('show.html',  user_image=name)
+    # shutil.copyfile('/data/data/temp.jpg', 'static/temp.jpg')
+    # shutil.copyfile('/data/data/cam.jpg', 'static/cam.jpg')
+    shutil.copyfile('../../data/temp.jpg', 'static/temp.jpg')
+    shutil.copyfile('../../data/cam.jpg', 'static/cam.jpg')
+
+    temp = 'temp.jpg'
+    cam = 'cam.jpg'
+    return render_template('show.html', temp=temp, cam=cam)
     # return render_template('show.html')
 
 # @app.route('/stream/')
