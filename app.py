@@ -43,7 +43,7 @@ def index():
     filenames = sorted(glob.glob("/data/data/*.csv"))
     filenames = glob.glob("/data/data/*.csv")
     for i, files in enumerate(filenames):
-        filenames[i] = files[5:]
+        filenames[i] = files[11:]
 
 
     return render_template('index.html',data=filenames)
@@ -51,7 +51,7 @@ def index():
 @app.route("/test" , methods=['GET', 'POST'])
 def test():
     select = request.form.get('file_select')
-    return send_file("/data{}".format(select), as_attachment=True)
+    return send_file("/data/data/{}".format(select), as_attachment=True)
 
 @app.route('/show/')
 def show():
