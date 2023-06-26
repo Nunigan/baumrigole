@@ -67,6 +67,7 @@ def show():
     shutil.copyfile('/data/data/cam.jpg', 'static/cam.jpg')
     shutil.copyfile('/data/data/climavue.jpg', 'static/climavue.jpg')
     shutil.copyfile('/data/data/soilvue.jpg', 'static/soilvue.jpg')
+    shutil.copyfile('/data/data/stats.jpg', 'static/stats.jpg')
 
     # shutil.copyfile('../../data/temp.jpg', 'static/temp.jpg')
     # shutil.copyfile('../../data/cam.jpg', 'static/cam.jpg')
@@ -77,8 +78,9 @@ def show():
     cam = 'cam.jpg'
     soil = 'soilvue.jpg'
     clima = 'climavue.jpg'
+    stats = 'stats.jpg'
 
-    return render_template('show.html', temp=temp, cam=cam, soil=soil, clima=clima)
+    return render_template('show.html', temp=temp, cam=cam, soil=soil, clima=clima, stats=stats)
     # return render_template('show.html')
 
 # @app.route('/stream/')
