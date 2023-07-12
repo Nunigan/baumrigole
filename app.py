@@ -6,7 +6,6 @@
 # from azure.storage.blob import BlobServiceClient
 # # from plot import plot
 # import time
-import shutil
 
 # # def dowload_cloud():
 # #     t = time.time()
