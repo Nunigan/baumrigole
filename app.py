@@ -187,31 +187,32 @@ def get_fig():
                                 [{"secondary_y": False}], 
                                 [{"secondary_y": False}],
                                 [{"secondary_y": False}]],
+                                vertical_spacing = 0.02
                                 )
 
     fig.add_trace(
-        go.Scatter(x=df.index, y=df["AirT_C_Avg"], mode='lines', name='Temperature', legendgroup = '1')
+        go.Scatter(x=df.index, y=df["AirT_C_Avg"], mode='lines', name='Temperature')
         , row=1, col=1, secondary_y=False)
 
     fig.add_trace(
-        go.Scatter(x=df.index, y=df["RH"], mode='lines', name='Humidity', legendgroup = '1')
+        go.Scatter(x=df.index, y=df["RH"], mode='lines', name='Humidity')
         , row=1, col=1, secondary_y=True)
 
     cum_rain = np.cumsum(rain)
-    fig.append_trace(go.Scatter(x=df.index , y=cum_rain, name='cumsum rain', legendgroup = '2')
+    fig.append_trace(go.Scatter(x=df.index , y=cum_rain, name='cumsum rain')
     , row=2, col=1)
-    fig.append_trace(go.Scatter(x=rain.index , y=rain, name='rain', legendgroup = '2')
+    fig.append_trace(go.Scatter(x=rain.index , y=rain, name='rain')
     , row=2, col=1)
 
     for s in ["5cm","10cm","20cm","30cm","40cm","50cm"]:
         fig.append_trace(
-            go.Scatter(x=df.index, y=df['T_{}_Avg'.format(s)], mode='lines', name='Temp @ {}'.format(s), legendgroup = '3')
+            go.Scatter(x=df.index, y=df['T_{}_Avg'.format(s)], mode='lines', name='Temp @ {}'.format(s))
             , row=3, col=1)
 
 
     for s in ["5cm","10cm","20cm","30cm","40cm","50cm"]:
         fig.append_trace(
-            go.Scatter(x=df.index, y=df["VWC_{}_Avg".format(s)], mode='lines', name='VWC @ {}'.format(s), legendgroup = '4')
+            go.Scatter(x=df.index, y=df["VWC_{}_Avg".format(s)], mode='lines', name='VWC @ {}'.format(s))
             , row=4, col=1)
 
     df_2d = pd.concat([df['VWC_10cm_Avg'], df['VWC_20cm_Avg'],df['VWC_30cm_Avg'],df['VWC_40cm_Avg'],df['VWC_50cm_Avg']], axis=1)
@@ -232,9 +233,9 @@ def get_fig():
     fig.update_yaxes(title_text=r"Temp (°C)", row=1, col=1, secondary_y=False)
     fig.update_yaxes(title_text=r"Humidity (%)", row=1, col=1, secondary_y=True)
     fig.update_yaxes(autorange="reversed", row=5, col=1)
+    fig.update_xaxes(showticklabels=True) 
 
-
-    fig.update_layout(height=1000, width=1700, legend_tracegroupgap = 120, title='Weather station and soil water content profile sensor')
+    fig.update_layout(height=2000, width=1700, title='Weather station and soil water content profile sensor')
     return fig
 
 if __name__ == '__main__':
