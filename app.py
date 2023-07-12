@@ -6,7 +6,7 @@
 # from azure.storage.blob import BlobServiceClient
 # # from plot import plot
 # import time
-# import shutil
+import shutil
 
 # # def dowload_cloud():
 # #     t = time.time()
@@ -120,6 +120,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import numpy as np
 import glob
+import shutil
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
