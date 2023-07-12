@@ -6,3 +6,4 @@ azure-storage-blob
 glob2
 matplotlib
 pandas
+plotly
