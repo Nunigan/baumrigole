@@ -136,6 +136,34 @@ def index():
 
     return render_template('index.html',data=filenames)
 
+@app.route('/show/')
+def show():
+    # fileList = glob.glob('static/temp2023*', recursive=True)
+    # for filePath in fileList:
+    #     try:
+    #         os.remove(filePath)
+    #     except OSError:
+    #         print("Error while deleting file")
+    
+    # name = 'temp{}.jpg'.format(datetime.today().strftime('%Y_%m_%d_%H:%M:%S'))
+    shutil.copyfile('/data/data/temp.jpg', 'static/temp.jpg')
+    shutil.copyfile('/data/data/cam.jpg', 'static/cam.jpg')
+    shutil.copyfile('/data/data/climavue.jpg', 'static/climavue.jpg')
+    shutil.copyfile('/data/data/soilvue.jpg', 'static/soilvue.jpg')
+    shutil.copyfile('/data/data/stats.jpg', 'static/stats.jpg')
+
+    # shutil.copyfile('../../data/temp.jpg', 'static/temp.jpg')
+    # shutil.copyfile('../../data/cam.jpg', 'static/cam.jpg')
+    # shutil.copyfile('../../data/climavue.jpg', 'static/climavue.jpg')
+    # shutil.copyfile('../../data/soilvue.jpg', 'static/soilvue.jpg')
+
+    temp = 'temp.jpg'
+    cam = 'cam.jpg'
+    soil = 'soilvue.jpg'
+    clima = 'climavue.jpg'
+    stats = 'stats.jpg'
+    return render_template('show.html', temp=temp, cam=cam, soil=soil, clima=clima, stats=stats)
+
 @app.route("/test" , methods=['GET', 'POST'])
 def test():
     select = request.form.get('file_select')
