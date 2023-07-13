@@ -6,12 +6,15 @@
     <meta charset="utf-8">
     <title>Cool Green Baumrigloe</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
   <div class="header">
-    <a href="https://www.ost.ch/de/forschung-und-dienstleistungen/interdisziplinaere-themen/icai-interdisciplinary-center-for-artificial-intelligence"><img src="{{url_for('static', filename='icai_logo.png')}}" alt="plot" style="width:10%" class="logo"> </a>
-    <a href="https://www.umtec.ch/index.php?id=4668"><img src="{{url_for('static', filename='umtec_logo.jpg')}}" alt="plot" style="width:10%" class="logo"> </a>
-    <a href="https://www.ost.ch/de/"><img src="{{url_for('static', filename='ost_logo.jpg')}}" alt="plot" style="width:9%" class="logo"> </a>
+    <a href="https://www.ost.ch/de/forschung-und-dienstleistungen/interdisziplinaere-themen/icai-interdisciplinary-center-for-artificial-intelligence"><img src="{{url_for('static', filename='icai_logo.png')}}" alt="plot" style="width:100px" class="logo"> </a>
+    <a href="https://www.umtec.ch/index.php?id=4668"><img src="{{url_for('static', filename='umtec_logo.jpg')}}" alt="plot" style="width:100px" class="logo"> </a>
+    <a href="https://www.ost.ch/de/"><img src="{{url_for('static', filename='ost_logo.jpg')}}" alt="plot" style="width:100px" class="logo"> </a>
     <div class="header-right">
       <a class="active" href="{{ url_for('index') }}">Home</a>
       <a href="{{ url_for('plot') }}">Plot Overview</a>
@@ -30,7 +33,7 @@
                 {% endfor %}
               </select>
       </div>
-      <button type="submit" class="btn btn-default">Download</button>
+      <button type="button" class="btn btn-primary btn-lg btn-block">Download</button>
     </div>
   </form>
   
