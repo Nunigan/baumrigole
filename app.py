@@ -8,19 +8,30 @@ from plotly.subplots import make_subplots
 import numpy as np
 import glob
 import shutil
-
+from datetime import datetime
 
 class DataManager:
     def __init__(self):
-        self.df = pd.read_csv('/data/data/all.csv', header=0, parse_dates=[0], index_col=[0])
+        self.path = '/data/data/all.csv'
+        self.stride = '30T'
+        self.last_update = datetime.now()
+        self.df = pd.read_csv(self.path, header=0, parse_dates=[0], index_col=[0])
         self.rain = self.df['Rain_mm_Tot']
         self.strikes = self.df['Strikes_Tot']
-        self.df = self.df.resample('60T').mean().interpolate('linear')
-        self.rain = self.rain.resample('60T').sum()
-        self.strikes = self.strikes.resample('60T').sum()
+        self.df = self.df.resample(self.stride).mean().interpolate('linear')
+        self.rain = self.rain.resample(self.stride).sum()
+        self.strikes = self.strikes.resample(self.stride).sum()
 
     def get_fig(self):
 
+        if (datetime.now() - self.last_update).total_seconds() >= 30*60:
+            self.last_update = datetime.now()
+            self.df = pd.read_csv(self.path, header=0, parse_dates=[0], index_col=[0])
+            self.rain = self.df['Rain_mm_Tot']
+            self.strikes = self.df['Strikes_Tot']
+            self.df = self.df.resample(self.stride).mean().interpolate('linear')
+            self.rain = self.rain.resample(self.stride).sum()
+            self.strikes = self.strikes.resample(self.stride).sum()
 
         fig = make_subplots(rows=5, cols=1, shared_xaxes=True
                             ,specs=[[{"secondary_y": True}], 
@@ -81,6 +92,16 @@ class DataManager:
         return fig
 
     def get_fig_select(self):
+
+        if (datetime.now() - self.last_update).total_seconds() >= 30*60:
+            self.last_update = datetime.now()
+            self.df = pd.read_csv(self.path, header=0, parse_dates=[0], index_col=[0])
+            self.rain = self.df['Rain_mm_Tot']
+            self.strikes = self.df['Strikes_Tot']
+            self.df = self.df.resample(self.stride).mean().interpolate('linear')
+            self.rain = self.rain.resample(self.stride).sum()
+            self.strikes = self.strikes.resample(self.stride).sum()
+
 
         fig = go.Figure()
                                                                                                                                                                                                                                                                                                                                                                                                                                                         # Rain Cum Sum
