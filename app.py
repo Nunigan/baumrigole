@@ -13,6 +13,8 @@ from datetime import datetime
 class DataManager:
     def __init__(self):
         self.path = '/data/data/all.csv'
+        # self.path = '../../data/all.csv'
+        self.path_all = '/data/data/'
         self.stride = '30T'
         self.last_update = datetime.now()
         self.df = pd.read_csv(self.path, header=0, parse_dates=[0], index_col=[0])
@@ -195,7 +197,7 @@ class DataManager:
                     dict(label = 'rH',
                         method = 'update',
                         args = [{'visible': rh},
-                                {'title': 'relative Humidity (%)',
+                                {'title': 'Relative Humidity (%)',
                                 'showlegend':True}]),
                     dict(label = 'BP',
                         method = 'update',
@@ -235,21 +237,21 @@ data_obj = DataManager(
 )
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    filenames = sorted(glob.glob("/data/data/*.csv"))
-    filenames = glob.glob("/data/data/*.csv")
-    for i, files in enumerate(filenames):
-        filenames[i] = files[11:]
-
-    return render_template('index.html',data=filenames)
+    filenames = sorted(glob.glob("{}*.csv".format(data_obj.path_all)))
+    # filenames = glob.glob("{}*.csv".format(data_obj.path_all))
+    fn = []
+    for files in filenames[:-3]:
+        fn.append(files[11:])
+    return render_template('index.html',data=fn)
 
 @app.route('/show/')
 def show():
 
-    shutil.copyfile('/data/data/temp.jpg', 'static/temp.jpg')
-    shutil.copyfile('/data/data/cam.jpg', 'static/cam.jpg')
-    shutil.copyfile('/data/data/climavue.jpg', 'static/climavue.jpg')
-    shutil.copyfile('/data/data/soilvue.jpg', 'static/soilvue.jpg')
-    shutil.copyfile('/data/data/stats.jpg', 'static/stats.jpg')
+    shutil.copyfile('{}/temp.jpg'.format(data_obj.path_all), 'static/temp.jpg')
+    shutil.copyfile('{}/cam.jpg'.format(data_obj.path_all), 'static/cam.jpg')
+    shutil.copyfile('{}/climavue.jpg'.format(data_obj.path_all), 'static/climavue.jpg')
+    shutil.copyfile('{}/soilvue.jpg'.format(data_obj.path_all), 'static/soilvue.jpg')
+    shutil.copyfile('{}/stats.jpg'.format(data_obj.path_all), 'static/stats.jpg')
 
     temp = 'temp.jpg'
     cam = 'cam.jpg'
@@ -259,10 +261,35 @@ def show():
 
     return render_template('show.html', temp=temp, cam=cam, soil=soil, clima=clima, stats=stats)
 
-@app.route("/test" , methods=['GET', 'POST'])
-def test():
+@app.route("/select_by_day" , methods=['GET', 'POST'])
+def select_by_day():
     select = request.form.get('file_select')
-    return send_file("/data/data/{}".format(select), as_attachment=True)
+    return send_file("{}/{}".format(data_obj.path_all, select), as_attachment=True)
+
+@app.route("/all" , methods=['GET', 'POST'])
+def all():
+    return send_file("{}/all.csv".format(data_obj.path_all), as_attachment=True)
+
+@app.route("/select_by_value" , methods=['GET', 'POST'])
+def select_by_value():
+    data = request.form.getlist('my_checkbox')
+    stride = request.form.get('sampling')
+    columns = []
+    for s in data:
+        for tmp in s.split(','):
+            columns.append(tmp)
+
+    df = pd.read_csv(data_obj.path, header=0, parse_dates=[0], index_col=[0])
+    rain = df['Rain_mm_Tot']
+    strikes = df['Strikes_Tot']
+    df = df.resample(stride).mean().interpolate('linear')
+    rain = rain.resample(stride).sum().interpolate('linear')
+    strikes = strikes.resample(stride).sum().interpolate('linear')
+    df['Rain_mm_Tot'] = rain.values
+    df['Strikes_Tot'] = strikes.values
+
+    df[columns].to_csv('{}/baumrigole_selected_data.csv'.format(data_obj.path_all))
+    return send_file("{}/baumrigole_selected_data.csv".format(data_obj.path_all), as_attachment=True)
 
 @app.route('/plot/')
 def plot():

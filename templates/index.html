@@ -20,7 +20,17 @@
     </div>
   </div>
       
-  <form class="form-inline" method="POST" action="{{ url_for('test') }}">
+  <fieldset>
+  <form class="form-inline" method="POST" action="{{ url_for('all') }}">
+   <b>Dowload all data</b>
+    <button type="submit">Download</button>
+  </form>
+</fieldset>
+
+<fieldset>
+  <form class="form-inline" method="POST" action="{{ url_for('select_by_day') }}">
+    <div style="margin:50px 0">
+    <b>Select data by day </b>
     <div class="form-group">
       <div class="input-group">
           <span class="input-group-addon">Please select</span>
@@ -30,8 +40,61 @@
                 {% endfor %}
               </select>
       </div>
-      <button type="submit" class="btn btn-default">Download</button>
+      <button type="submit">Download</button>
     </div>
+  </div>
   </form>
+</fieldset>
+
+
+<fieldset>
+
   
+  <form class="form-inline" method="POST" action="{{ url_for('select_by_value') }}">
+    <div style="margin:50px 0">
+      <b>Select data to download</b><br>
+
+      <label for="cars">Choose a sampling time:</label>
+      <select name="sampling" id="sampling">
+        <option value="1T">1 minute</option>
+        <option value="10T">10 minutes</option>
+        <option value="30T">30 minutes</option>
+        <option value="60T">60 minutes</option>
+        <option value="1440">24 hours</option>
+      </select> <br><br>
+        <input type="checkbox" value="VWC_5cm_Avg,VWC_10cm_Avg,VWC_20cm_Avg,VWC_30cm_Avg,VWC_40cm_Avg,VWC_50cm_Avg" name='my_checkbox'>
+        <label>Volumetric Water Content</label> <br>
+        <input type="checkbox" value="Ka_5cm_Avg,Ka_10cm_Avg,Ka_20cm_Avg,Ka_30cm_Avg,Ka_40cm_Avg,Ka_50cm_Avg" name='my_checkbox'>
+        <label>Permittivity</label> <br>
+        <input type="checkbox" value="BulkEC_5cm_Avg,BulkEC_10cm_Avg,BulkEC_20cm_Avg,BulkEC_30cm_Avg,BulkEC_40cm_Avg,BulkEC_50cm_Avg" name='my_checkbox'>
+        <label>Bulk Electrical Conductivity</label> <br>
+        <input type="checkbox" value="T_5cm_Avg,T_10cm_Avg,T_20cm_Avg,T_30cm_Avg,T_40cm_Avg,T_50cm_Avg" name='my_checkbox'>
+        <label>Soil Temperature</label> <br>
+        <input type="checkbox" value="AirT_C_Avg" name='my_checkbox'>
+        <label>Temperature</label> <br>
+        <input type="checkbox" value="SlrFD_W_Avg" name='my_checkbox'>
+        <label>Solar Flux Density</label> <br>
+        <input type="checkbox" value="RH" name='my_checkbox'>
+        <label>Relative Humidity</label> <br>
+        <input type="checkbox" value="BP_mbar_Avg" name='my_checkbox'>
+        <label>Barometric Pressure</label> <br>
+        <input type="checkbox" value="VP_mbar_Avg" name='my_checkbox'>
+        <label>Vapor Pressure</label> <br>
+        <input type="checkbox" value="Strikes_Tot" name='my_checkbox'>
+        <label>Lightning strikes</label> <br>
+        <input type="checkbox" value="Dist_km_Avg" name='my_checkbox'>
+        <label>Lightning strikes distance</label> <br>
+        <input type="checkbox" value="Rain_mm_Tot" name='my_checkbox'>
+        <label>Rain</label> <br>
+        <input type="checkbox" value="WS_ms_S_WVT" name='my_checkbox'>
+        <label>Wind speed</label> <br>
+        <input type="checkbox" value="WindDir_D1_WVT" name='my_checkbox'>
+        <label>Wind direction</label> <br>
+        <input type="checkbox" value="MaxWS_ms_Avg" name='my_checkbox'>        
+        <label>Wind max</label> <br>
+        <button type="submit">Download</button>
+    </div>
+    </form>
+  </fieldset>
+
 </html>
