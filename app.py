@@ -12,9 +12,11 @@ from datetime import datetime
 
 class DataManager:
     def __init__(self):
-        self.path = '/data/data/all.csv'
-        # self.path = '../../data/all.csv'
-        self.path_all = '/data/data/'
+        # self.path = '/data/data/all.csv'
+        self.path = '../../data/all.csv'
+        # self.path_all = '/data/data/'
+        self.path_all = '../../data/data/'
+
         self.stride = '30T'
         self.last_update = datetime.now()
         self.df = pd.read_csv(self.path, header=0, parse_dates=[0], index_col=[0])
@@ -238,11 +240,14 @@ data_obj = DataManager(
 @app.route('/', methods=['GET', 'POST'])
 def index():
     filenames = sorted(glob.glob("{}*.csv".format(data_obj.path_all)))
-    # filenames = glob.glob("{}*.csv".format(data_obj.path_all))
+
+    start = data_obj.df.index[0].strftime('%Y-%m-%d')
+    end = data_obj.df.index[-1].strftime('%Y-%m-%d')
+    print(type(start), end)
     fn = []
     for files in filenames[:-2]:
         fn.append(files[11:])
-    return render_template('index.html',data=fn)
+    return render_template('index.html',data=fn,start_date=start, end_date=end)
 
 @app.route('/show/')
 def show():
@@ -272,6 +277,9 @@ def all():
 
 @app.route("/select_by_value" , methods=['GET', 'POST'])
 def select_by_value():
+
+    select1 = request.form.get('date_start')
+    select2 = request.form.get('date_end')
     data = request.form.getlist('my_checkbox')
     stride = request.form.get('sampling')
     columns = []

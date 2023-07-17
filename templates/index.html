@@ -49,10 +49,20 @@
 
 <fieldset>
 
-  
+
   <form class="form-inline" method="POST" action="{{ url_for('select_by_value') }}">
     <div style="margin:50px 0">
       <b>Select data to download</b><br>
+
+      <label for="start">Select start and end date:</label>
+
+      <input type="date" id="start" name="date_start"
+             value="{{date_selected}}"
+             min="{{start_date}}" max="{{end_date}}">
+    <input type="date" id="start" name="date_end"
+           value="{{date_selected}}"
+           min="{{start_date}}" max="{{end_date}}">
+           <button type="submit">Set Date</button><br>
 
       <label for="cars">Choose a sampling time:</label>
       <select name="sampling" id="sampling">
@@ -90,7 +100,7 @@
         <label>Wind speed</label> <br>
         <input type="checkbox" value="WindDir_D1_WVT" name='my_checkbox'>
         <label>Wind direction</label> <br>
-        <input type="checkbox" value="MaxWS_ms_Avg" name='my_checkbox'>        
+        <input type="checkbox" value="MaxWS_ms_Avg" name='my_checkbox'>
         <label>Wind max</label> <br>
         <button type="submit">Download</button>
     </div>
