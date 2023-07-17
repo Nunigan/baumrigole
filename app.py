@@ -240,7 +240,7 @@ def index():
     filenames = sorted(glob.glob("{}*.csv".format(data_obj.path_all)))
     # filenames = glob.glob("{}*.csv".format(data_obj.path_all))
     fn = []
-    for files in filenames[:-3]:
+    for files in filenames[:-2]:
         fn.append(files[11:])
     return render_template('index.html',data=fn)
 
@@ -288,8 +288,8 @@ def select_by_value():
     df['Rain_mm_Tot'] = rain.values
     df['Strikes_Tot'] = strikes.values
 
-    df[columns].to_csv('{}/baumrigole_selected_data.csv'.format(data_obj.path_all))
-    return send_file("{}/baumrigole_selected_data.csv".format(data_obj.path_all), as_attachment=True)
+    df[columns].to_csv('baumrigole_selected_data.csv'.format(data_obj.path_all))
+    return send_file("baumrigole_selected_data.csv".format(data_obj.path_all), as_attachment=True)
 
 @app.route('/plot/')
 def plot():
