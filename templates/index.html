@@ -52,17 +52,21 @@
 
   <form class="form-inline" method="POST" action="{{ url_for('select_by_value') }}">
     <div style="margin:50px 0">
-      <b>Select data to download</b><br>
+      <b>Customize data to download</b><br><br>
 
-      <label for="start">Select start and end date:</label>
+      <label for="start">Select start date:</label>
 
       <input type="date" id="start" name="date_start"
              value="{{date_selected}}"
              min="{{start_date}}" max="{{end_date}}">
+      <br><br>
+
+      <label for="start">Select end date:</label>
+
     <input type="date" id="start" name="date_end"
-           value="{{date_selected}}"
+           value="{{date_selected2}}"
            min="{{start_date}}" max="{{end_date}}">
-           <button type="submit">Set Date</button><br>
+      <br><br>
 
       <label for="cars">Choose a sampling time:</label>
       <select name="sampling" id="sampling">

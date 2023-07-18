@@ -243,11 +243,10 @@ def index():
 
     start = data_obj.df.index[0].strftime('%Y-%m-%d')
     end = data_obj.df.index[-1].strftime('%Y-%m-%d')
-    print(type(start), end)
     fn = []
     for files in filenames[:-2]:
         fn.append(files[11:])
-    return render_template('index.html',data=fn,start_date=start, end_date=end)
+    return render_template('index.html',data=fn, date_selected=start,date_selected2=end,start_date=start, end_date=end)
 
 @app.route('/show/')
 def show():
@@ -278,8 +277,8 @@ def all():
 @app.route("/select_by_value" , methods=['GET', 'POST'])
 def select_by_value():
 
-    select1 = request.form.get('date_start')
-    select2 = request.form.get('date_end')
+    start_date = request.form.get('date_start')
+    end_date = request.form.get('date_end')
     data = request.form.getlist('my_checkbox')
     stride = request.form.get('sampling')
     columns = []
@@ -288,15 +287,24 @@ def select_by_value():
             columns.append(tmp)
 
     df = pd.read_csv(data_obj.path, header=0, parse_dates=[0], index_col=[0])
-    rain = df['Rain_mm_Tot']
-    strikes = df['Strikes_Tot']
-    df = df.resample(stride).mean().interpolate('linear')
-    rain = rain.resample(stride).sum().interpolate('linear')
-    strikes = strikes.resample(stride).sum().interpolate('linear')
-    df['Rain_mm_Tot'] = rain.values
-    df['Strikes_Tot'] = strikes.values
+    df = df[columns]
+    df = df[start_date : end_date]
 
-    df[columns].to_csv('baumrigole_selected_data.csv'.format(data_obj.path_all))
+    if 'Rain_mm_Tot' in columns:
+        rain = df['Rain_mm_Tot']
+        rain = rain.resample(stride).sum().interpolate('linear')
+    if 'Strikes_Tot' in columns:
+        strikes = df['Strikes_Tot']
+        strikes = strikes.resample(stride).sum().interpolate('linear')
+
+    df = df.resample(stride).mean().interpolate('linear')
+
+    if 'Rain_mm_Tot' in columns:
+        df['Rain_mm_Tot'] = rain.values
+    if 'Strikes_Tot' in columns:
+        df['Strikes_Tot'] = strikes.values
+
+    df.to_csv('baumrigole_selected_data.csv'.format(data_obj.path_all))
     return send_file("baumrigole_selected_data.csv".format(data_obj.path_all), as_attachment=True)
 
 @app.route('/plot/')
@@ -313,6 +321,6 @@ def select():
 
 if __name__ == '__main__':
 
-    app.run()
+    app.run(port=5001)
     # fig = get_fig()
     # fig.show()
