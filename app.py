@@ -12,10 +12,10 @@ from datetime import datetime
 
 class DataManager:
     def __init__(self):
-        # self.path = '/data/data/all.csv'
-        self.path = '../../data/all.csv'
-        # self.path_all = '/data/data/'
-        self.path_all = '../../data/data/'
+        self.path = '/data/data/all.csv'
+        # self.path = '../../data/all.csv'
+        self.path_all = '/data/data/'
+        # self.path_all = '../../data/data/'
 
         self.stride = '30T'
         self.last_update = datetime.now()
