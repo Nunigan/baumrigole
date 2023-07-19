@@ -13,10 +13,7 @@ from datetime import datetime
 class DataManager:
     def __init__(self):
         self.path = '/data/data/all.csv'
-        # self.path = '../../data/all.csv'
         self.path_all = '/data/data/'
-        # self.path_all = '../../data/data/'
-
         self.stride = '30T'
         self.last_update = datetime.now()
         self.df = pd.read_csv(self.path, header=0, parse_dates=[0], index_col=[0])
@@ -26,9 +23,10 @@ class DataManager:
         self.rain = self.rain.resample(self.stride).sum()
         self.strikes = self.strikes.resample(self.stride).sum()
 
-    def get_fig(self):
+    def update_data(self):
 
         if (datetime.now() - self.last_update).total_seconds() >= 30*60:
+            self.stride = '30T'
             self.last_update = datetime.now()
             self.df = pd.read_csv(self.path, header=0, parse_dates=[0], index_col=[0])
             self.rain = self.df['Rain_mm_Tot']
@@ -36,6 +34,10 @@ class DataManager:
             self.df = self.df.resample(self.stride).mean().interpolate('linear')
             self.rain = self.rain.resample(self.stride).sum()
             self.strikes = self.strikes.resample(self.stride).sum()
+
+    def get_fig(self):
+
+        self.update_data()
 
         fig = make_subplots(rows=5, cols=1, shared_xaxes=True
                             ,specs=[[{"secondary_y": True}], 
@@ -97,15 +99,7 @@ class DataManager:
 
     def get_fig_select(self):
 
-        if (datetime.now() - self.last_update).total_seconds() >= 30*60:
-            self.last_update = datetime.now()
-            self.df = pd.read_csv(self.path, header=0, parse_dates=[0], index_col=[0])
-            self.rain = self.df['Rain_mm_Tot']
-            self.strikes = self.df['Strikes_Tot']
-            self.df = self.df.resample(self.stride).mean().interpolate('linear')
-            self.rain = self.rain.resample(self.stride).sum()
-            self.strikes = self.strikes.resample(self.stride).sum()
-
+        self.update_data()
 
         fig = go.Figure()
                                                                                                                                                                                                                                                                                                                                                                                                                                                         # Rain Cum Sum
@@ -234,12 +228,12 @@ class DataManager:
 
 app = Flask(__name__)
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
-data_obj = DataManager(
+data_obj = DataManager()
 
-)
 @app.route('/', methods=['GET', 'POST'])
 def index():
     filenames = sorted(glob.glob("{}*.csv".format(data_obj.path_all)))
+    data_obj.update_data()
 
     start = data_obj.df.index[0].strftime('%Y-%m-%d')
     end = data_obj.df.index[-1].strftime('%Y-%m-%d')
