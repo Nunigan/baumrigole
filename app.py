@@ -39,11 +39,12 @@ class DataManager:
 
         self.update_data()
 
-        fig = make_subplots(rows=5, cols=1, shared_xaxes=True
+        fig = make_subplots(rows=6, cols=1, shared_xaxes=True
                             ,specs=[[{"secondary_y": True}], 
                                     [{"secondary_y": False}], 
                                     [{"secondary_y": False}], 
                                     [{"secondary_y": False}],
+                                    [{"secondary_y": False}],   
                                     [{"secondary_y": False}]],
                                     vertical_spacing = 0.03
                                     )
@@ -78,17 +79,28 @@ class DataManager:
         x = df_2d.index
 
         fig.append_trace(
-            go.Contour(z=z,x=x,y=y,colorscale='Blues', name='VWC',colorbar=dict(len=0.18, y=0.09)),
+            go.Contour(z=z,x=x,y=y,contours_coloring='heatmap', colorscale='Blues', name='VWC',colorbar=dict(len=0.15, y=0.24)),
                 row=5, col=1)
+
+        df_2d_temp = pd.concat([self.df['T_10cm_Avg'], self.df['T_20cm_Avg'],self.df['T_30cm_Avg'],self.df['T_40cm_Avg'],self.df['T_50cm_Avg']], axis=1)
+        z = np.swapaxes(np.array(df_2d_temp), 0, 1)
+        y = np.array([10, 20, 30, 40, 50])
+        x = df_2d_temp.index
+
+        fig.append_trace(
+            go.Contour(z=z,x=x,y=y,contours_coloring='heatmap',colorscale='reds', name='Temp', line_smoothing=0.85 ,colorbar=dict(len=0.15, y=0.07)),
+                row=6, col=1)
 
         fig.update_yaxes(title_text=r"VWC (m^3/m^3)", row=4, col=1)
         fig.update_yaxes(title_text=r"Depth (cm)", row=5, col=1)
+        fig.update_yaxes(title_text=r"Depth (cm)", row=6, col=1)
         fig.update_yaxes(title_text=r"Soil Temp (°C)", row=3, col=1)
         fig.update_yaxes(title_text=r"Rain (mm)", row=2, col=1)
         fig.update_xaxes(title_text=r"Time", row=5, col=1)
         fig.update_yaxes(title_text=r"Temp (°C)", row=1, col=1, secondary_y=False)
         fig.update_yaxes(title_text=r"Humidity (%)", row=1, col=1, secondary_y=True)
         fig.update_yaxes(autorange="reversed", row=5, col=1)
+        fig.update_yaxes(autorange="reversed", row=6, col=1)
         fig.update_xaxes(showticklabels=True) 
 
         fig.update_layout(height=2000, title='Weather station and soil water content profile sensor', template='plotly_dark', font=dict(
@@ -170,12 +182,12 @@ class DataManager:
                         args = [{'visible': ka},
                                 {'title': 'Permittivity',
                                 'showlegend':True}]),
-                    dict(label = 'Bulk',
+                    dict(label = 'Electrical Conductivity',
                         method = 'update',
                         args = [{'visible': bulk},
                                 {'title': 'Bulk Electrical Conductivity (dS/m)',
                                 'showlegend':True}]),
-                    dict(label = 'Soil_T',
+                    dict(label = 'Soil Temperature',
                         method = 'update',
                         args = [{'visible': T},
                                 {'title': 'Soil Temperature (°C)',
